@@ -7,5 +7,6 @@ class Employee(models.Model):
     specialty = models.CharField(max_length=155)
 
     @property
-    def full_name(self):
+    def full_name(self): 
         return f'{self.user.first_name} {self.user.last_name}'
+        

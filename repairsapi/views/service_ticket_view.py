@@ -33,10 +33,15 @@ class ServiceTicketView(ViewSet):
             Response -- JSON serialized list of employees
         """
 
-        # service_tickets = ServiceTicket.objects.all()
+        service_tickets = []
 
         if request.auth.user.is_staff:
             service_tickets = ServiceTicket.objects.all()
+            if "status" in request.query_params:
+                if request.query_params['status'] == "done":
+                    service_tickets = service_tickets.filter(date_completed__isnull=False)
+                if request.query_params['status'] == "all":
+                    pass
         else:
             service_tickets = ServiceTicket.objects.filter(customer__user=request.auth.user)
 

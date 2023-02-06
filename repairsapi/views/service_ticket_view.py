@@ -26,6 +26,26 @@ class ServiceTicketView(ViewSet):
 
         return Response(serialized.data, status=status.HTTP_201_CREATED)
 
+    def update(self, request, pk=None):
+
+        # Select the targeted ticket using pk 
+        ticket = ServiceTicket.objects.get(pk=pk)
+
+        # Get the employee id from the client request 
+        employee_id = request.data['employee']
+
+        # Select the employee from the database using that id 
+        assigned_employee = Employee.objects.get(pk=employee_id)
+
+        # Assing that Employee instance to the employee property of the ticket 
+        ticket.employee = assigned_employee
+
+        # Save the updated ticket
+        ticket.save()
+
+        return Response(None, status=status.HTTP_204_NO_CONTENT) 
+
+
     def list(self, request):
         """Handle GET requests to get all employees
 

@@ -10,6 +10,18 @@ from repairsapi.models import ServiceTicket, Employee, Customer
 class ServiceTicketView(ViewSet):
     """Honey Rae API employees view"""
 
+    def destroy(self, request, pk=None): 
+        """Handle DELETE requests for service tickets
+
+        Returns:
+            Response: JSON serialized representation of newly created service ticket
+        """
+        service_ticket = ServiceTicket.objects.get(pk=pk)
+        service_ticket.delete()
+
+        # Returning None because we have no data to send
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
     def create(self, request):
         """Handle POST requests for service tickets
 
@@ -28,6 +40,11 @@ class ServiceTicketView(ViewSet):
 
     def update(self, request, pk=None):
 
+        """Handle PUT requests for service tickets
+
+        Returns:
+            Response: JSON serialized representation of newly created service ticket
+        """
         # Select the targeted ticket using pk 
         ticket = ServiceTicket.objects.get(pk=pk)
 
